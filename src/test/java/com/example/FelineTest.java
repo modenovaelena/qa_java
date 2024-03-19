@@ -31,16 +31,10 @@ public class FelineTest {
     }
     
     @Test
-    public void testFelineEatsMeat() {
+    public void testFelineEatsMeat() throws Exception {
         
         Feline feline = new Feline();
-        
-        try {
-            Assert.assertThat(feline.eatMeat(), 
+        Assert.assertThat(feline.eatMeat(),
                 hasItems("Животные", "Птицы", "Рыба"));
-        } catch (Exception e)
-        {
-            System.out.println(e);
-        }
     }
 }

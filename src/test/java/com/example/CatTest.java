@@ -27,17 +27,12 @@ public class CatTest {
     }
     
     @Test
-    public void testCatEatsMeat() {
+    public void testCatEatsMeat() throws Exception {
         
         Cat cat = new Cat(feline);
-        
-        try {
-            cat.getFood();
-            Mockito.verify(feline, Mockito.times(1)).eatMeat();
-        } catch (Exception e)
-        {
-            System.out.println(e);
-        }
+        cat.getFood();
+        Mockito.verify(feline, Mockito.times(1)).eatMeat();
+
     }
  
 }

@@ -17,7 +17,7 @@ public class LionTest {
     
     String gender;
     boolean hasMane;
-    boolean isValidGender;
+
     
     @Mock
     Feline feline;
@@ -25,18 +25,16 @@ public class LionTest {
     @Parameterized.Parameters
     public static Object[][] getTestData() {
         return new Object[][] {
-                {"Самка", false, true},
-                {"Самец", true, true},
-                {"", false, false}
+                {"Самка", false},
+                {"Самец", true}
+
         };
     }
     
-    public LionTest(String gender, boolean hasMane, 
-        boolean isValidGender) {
+    public LionTest(String gender, boolean hasMane) {
             
         this.gender = gender;
         this.hasMane = hasMane;
-        this.isValidGender = isValidGender;
     }
     
     @Before
@@ -45,46 +43,31 @@ public class LionTest {
 	}
     
     @Test
-    public void testGendersMane() {
+    public void testGendersMane() throws Exception {
 
-        try { 
-            Lion lion = new Lion (this.gender, feline);
-            
-            Assert.assertEquals(this.hasMane, lion.doesHaveMane());
-            Assert.assertTrue(this.isValidGender);
-        } catch (Exception e) 
-        {
-            Assert.assertFalse(this.isValidGender);
-        }
+        Lion lion = new Lion (this.gender, feline);
+        Assert.assertEquals(this.hasMane, lion.doesHaveMane());
+
     }
     
     @Test
-    public void testGetKittens() {
+    public void testGetKittens() throws Exception {
+        Lion lion = new Lion (this.gender, feline);
+        lion.getKittens();
+        Mockito.verify(feline, Mockito.times(1)).getKittens();
 
-        try { 
-            Lion lion = new Lion (this.gender, feline);
-
-            lion.getKittens();
-            Mockito.verify(feline, Mockito.times(1)).getKittens();
-            Assert.assertTrue(this.isValidGender);
-        } catch (Exception e) 
-        {
-            Assert.assertFalse(this.isValidGender);
-        }
     }
     
     @Test
-    public void testLionEatsMeat() {
+    public void testLionEatsMeat() throws Exception {
 
-        try { 
-            Lion lion = new Lion (this.gender, feline);
-            
-            lion.getFood();
-            Mockito.verify(feline, Mockito.times(1)).getFood("Хищник");
-            Assert.assertTrue(this.isValidGender);
-        } catch (Exception e) 
-        {
-            Assert.assertFalse(this.isValidGender);
-        }
+        Lion lion = new Lion (this.gender, feline);
+        lion.getFood();
+        Mockito.verify(feline, Mockito.times(1)).getFood("Хищник");
+
+    }
+    @Test(expected = Exception.class)
+    public void testLionInvalidGenderThrowsException() throws Exception {
+        Lion lion = new Lion ("", feline);
     }
 }
